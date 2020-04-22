@@ -1,4 +1,3 @@
-#binary search
 package main
 
 import (
