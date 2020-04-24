@@ -33,5 +33,19 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println()
+	nums := []int{2, 7, 11, 15}
+	fmt.Println(twoSum(nums, 9))
+}
+
+func twoSum(nums []int, target int) []int {
+	mNumToIndex := make(map[int]int, len(nums))
+	for index, one := range nums {
+		another := target - one
+		if anotherIndex, ok := mNumToIndex[another]; ok {
+			return []int{anotherIndex, index}
+		} else {
+			mNumToIndex[one] = index
+		}
+	}
+	return []int{}
 }
