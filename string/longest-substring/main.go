@@ -45,7 +45,7 @@ import (
 )
 
 func main() {
-	fmt.Println(lengthOfLongestSubstring("abcbde"))
+	fmt.Println(lengthOfLongestSubstring("abcabcbb"))
 }
 
 func lengthOfLongestSubstring(s string) int {
@@ -64,9 +64,8 @@ func lengthOfLongestSubstring(s string) int {
 			for ; begin <= ci; begin++ {
 				delete(charToIndex, s[begin])
 			}
-		} else {
-			charToIndex[s[i]] = i
 		}
+		charToIndex[s[i]] = i
 		count++
 		i++
 	}
