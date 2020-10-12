@@ -24,14 +24,38 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	p := []int{7, 1, 5, 3, 6, 4}
-	fmt.Println(bestTime(p))
+	fmt.Println(BestTimeOptimize(p))
 
 	p = []int{7, 6, 4, 3, 1}
-	fmt.Println(bestTime(p))
+	fmt.Println(BestTimeOptimize(p))
+
+	p = []int{6, 3, 7, 1, 2}
+	fmt.Println(BestTimeOptimize(p))
+}
+
+func BestTimeOptimize(prices []int) (buyDay, sellDay, profit int) {
+	if len(prices) == 0 {
+		return 0, 0, 0
+	}
+	minPrice := prices[0]
+	for i, price := range prices {
+		tmpProfit := price - minPrice
+		if tmpProfit > profit {
+			profit = tmpProfit
+			sellDay = i
+		}
+		if price < minPrice {
+			minPrice = price
+			buyDay = i
+		}
+	}
+	return buyDay, sellDay, profit
 }
 
 func bestTime(prices []int) (buyDay, sellDay, profit int) {
