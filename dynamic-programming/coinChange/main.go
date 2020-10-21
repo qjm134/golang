@@ -46,6 +46,10 @@ func main() {
 	coins = []int64{1, 3, 4, 5}
 	amount = int64(7)
 	fmt.Println(fewestNumber(coins, amount))
+
+	coinsN := []int{2}
+	amountN := 3
+	fmt.Println(mimNum(coinsN, amountN))
 }
 
 func fewestNumber(coins []int64, amount int64) int64 {
@@ -93,4 +97,36 @@ func everyCoin(index int, coins []int64, amount int64) (fewestNum int64) {
 	}
 
 	return curFewest
+}
+
+var mapMinNum = make(map[int]int)
+
+func mimNum(coins []int, amount int) int {
+	if amount == 0 {
+		return 0
+	}
+
+	if amount < 0 {
+		return -1
+	}
+
+	minInit := amount + 1
+	min := minInit
+	for _, coin := range coins {
+		var preNum int
+		var ok bool
+		if preNum, ok = mapMinNum[amount-coin]; !ok {
+			preNum = mimNum(coins, amount-coin)
+			mapMinNum[amount-coin] = preNum
+		}
+		if (preNum != -1) && (preNum+1 < min) {
+			min = preNum + 1
+		}
+	}
+
+	if min == minInit {
+		return -1
+	} else {
+		return min
+	}
 }
