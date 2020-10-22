@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="14768c60-3b55-4268-b9ea-7ec08c5720f4" name="Default" comment="depth of a binary tree">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-programming/coinChange/solution/~$inChange.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dynamic-programming/coinChange/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-programming/coinChange/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dynamic-programming/coinChange/solution/coinChange.docx" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-programming/coinChange/solution/coinChange.docx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
