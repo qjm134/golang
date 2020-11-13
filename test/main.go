@@ -1,6 +1,25 @@
 package main
 
+import "fmt"
+
+type f interface {
+	do()
+}
+
+type f1 struct{}
+
+func (f1) do() {}
+
+type f2 struct{}
+
+func (f2) do() {}
+
 func main() {
+	var a interface{}
+	a = 1
+	b, ok := a.(string)
+	fmt.Println(b, ok)
+
 	/*
 		a := make([]int, 2)
 		fmt.Println(a)
@@ -73,5 +92,28 @@ func main() {
 
 
 	*/
+	/*
+		a := []int{1}
+		b := []int{1}
 
+		c := map[int]int{1: 1}
+		d := map[int]int{1: 1}
+
+		type ee struct {
+			a int
+			b []int
+		}
+
+		e1 := ee{1, []int{1}}
+		e2 := ee{1, []int{1}}
+
+		ff1 := f1{}
+		ff2 := f2{}
+
+		if ff1 == ff2 {
+			fmt.Print("equal")
+		}
+
+
+	*/
 }
