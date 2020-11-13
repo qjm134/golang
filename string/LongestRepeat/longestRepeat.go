@@ -62,29 +62,23 @@ The substring "BBBB" has the longest repeating letters, which is 4.
 */
 package LongestRepeat
 
-import "math"
+func CharacterReplacement(s string, k int) int {
+	var maxLen, maxChar int
+	var start int
+	charToNum := make(map[byte]int)
 
-func characterReplacement(s string, k int) int {
-	counts := make(map[string]int)
-	var start, maxLen, maxCnt int
-	for end := 0; end < len(s); end++ {
-		counts[string(s[end])]++
-
-		// max is the largest count of a single, unique character in the window
-		maxCnt = int(math.Max(float64(maxCnt), float64(counts[string(s[end])])))
-
-		// if the amount left to modify is greater than the k
-		// modifications we can use, then shrink the window.
-		windowSize := end - start + 1
-		leftToModify := windowSize - maxCnt
-		if leftToModify > k {
-			counts[string(s[start])]--
-			start++
+	for i := 0; i < len(s); i++ {
+		charToNum[s[i]]++
+		maxLen++
+		if charToNum[s[i]] > maxChar {
+			maxChar = charToNum[s[i]]
 		}
-
-		maxLen = int(math.Max(float64(maxLen), float64(end-start+1)))
+		if maxLen > (maxChar + k) {
+			charToNum[s[start]]--
+			start++
+			maxLen--
+		}
 	}
-
 	return maxLen
 }
 
