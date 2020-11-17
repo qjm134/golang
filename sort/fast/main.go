@@ -34,6 +34,7 @@ func fast_sort(a []int, s int, e int) {
 
 func main() {
 	a := []int{0, 3, 2, 5, 4, 7, 8}
+	a = []int{1}
 	fmt.Println("before sort:", a)
 	fast_sort(a, 0, len(a)-1)
 	fmt.Println("after sort:", a)
