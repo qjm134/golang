@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 type f interface {
 	do()
@@ -15,11 +19,32 @@ type f2 struct{}
 func (f2) do() {}
 
 func main() {
-	var a interface{}
-	a = 1
-	b, ok := a.(string)
-	fmt.Println(b, ok)
-
+	dataCh := make(chan string, 5)
+	notifyCh := make(chan struct{})
+	for i := 0; i < 10; i++ {
+		go func() {
+			data, err := getText()
+			for err != nil {
+				select {
+				case <-notifyCh:
+					return
+				default:
+					data, err = getText()
+				}
+			}
+			dataCh <- data
+		}()
+	}
+	for i := 0; i < 5; i++ {
+		fmt.Println(i, <-dataCh)
+	}
+	close(notifyCh)
+	/*
+		var a interface{}
+		a = 1
+		b, ok := a.(string)
+		fmt.Println(b, ok)
+	*/
 	/*
 		a := make([]int, 2)
 		fmt.Println(a)
@@ -116,4 +141,11 @@ func main() {
 
 
 	*/
+
+}
+
+func getText() (string, error) {
+	rand.Seed(time.Now().Unix())
+	time.Sleep(time.Duration(rand.Int()) * time.Second)
+	return "ok", nil
 }

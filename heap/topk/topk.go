@@ -27,7 +27,12 @@ It's guaranteed that the answer is unique, in other words the set of the top k f
 You can return the answer in any order.
 
 思路：
-
+1.统计各数字出现的次数
+2.出现的次数可能有一样的[1，1，3，3，4]，比如1出现2次，3也出现2次，那么2是一个待排的，频次数组里只要一个2去跟其他频次数排就行，如果2排前k里，输出的时候，并排把1和3也输出
+3.转换为一个无重复数组的topk问题，快排一次n，找到一个位置pos，这个位置有3种情况，小于、大于、等于k
+  等于就不用再排了，前k个就是需要的；
+  大于k，则继续只排前一半就行，省去后一半不用管了
+  小于k，则前一半都是，后一半还需再找到前 k-pos 的
 */
 
 package topk
