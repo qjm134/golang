@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"net/http"
+	_ "net/http/pprof"
 	"time"
 )
 
@@ -18,27 +21,85 @@ type f2 struct{}
 
 func (f2) do() {}
 
+func get(url string) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return
+	}
+	//defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("resp body: ", string(body))
+	time.Sleep(time.Microsecond * 200)
+}
+
+func modify(s []int) {
+	s = append(s, 1)
+}
+
 func main() {
-	dataCh := make(chan string, 5)
-	notifyCh := make(chan struct{})
-	for i := 0; i < 10; i++ {
+
+	/*
 		go func() {
-			data, err := getText()
-			for err != nil {
-				select {
-				case <-notifyCh:
-					return
-				default:
-					data, err = getText()
+			urls := []string{
+				"https://www.baidu.com",
+				//"https://www.google.com",
+				//"https://www.github.com",
+				//"https://www.qq.com",
+				//"https://kaiwu.lagou.com",
+			}
+			for {
+				for _, url := range urls {
+					get(url)
 				}
 			}
-			dataCh <- data
 		}()
-	}
-	for i := 0; i < 5; i++ {
-		fmt.Println(i, <-dataCh)
-	}
-	close(notifyCh)
+
+		http.ListenAndServe(":1234", nil)
+
+		//fmt.Println("mei")
+
+	*/
+
+	/*
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Println("recover")
+			}
+		}()
+
+		go func() {
+			panic("call panic")
+		}()
+
+		for {
+			fmt.Println("main")
+		}
+		//panic("main panic")
+
+	*/
+	/*
+		dataCh := make(chan string, 5)
+		notifyCh := make(chan struct{})
+		for i := 0; i < 10; i++ {
+			go func() {
+				data, err := getText()
+				for err != nil {
+					select {
+					case <-notifyCh:
+						return
+					default:
+						data, err = getText()
+					}
+				}
+				dataCh <- data
+			}()
+		}
+		for i := 0; i < 5; i++ {
+			fmt.Println(i, <-dataCh)
+		}
+		close(notifyCh)
+
+	*/
 	/*
 		var a interface{}
 		a = 1
