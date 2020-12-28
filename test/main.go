@@ -21,22 +21,18 @@ type f2 struct{}
 
 func (f2) do() {}
 
-func get(url string) {
-	resp, err := http.Get(url)
-	if err != nil {
-		return
-	}
-	//defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("resp body: ", string(body))
-	time.Sleep(time.Microsecond * 200)
+type inter interface {
+	every()
 }
 
-func modify(s []int) {
-	s = append(s, 1)
+type s struct {
+	i int
+	e inter
 }
 
 func main() {
+	ss := s{}
+	fmt.Println(ss)
 
 	/*
 		go func() {
@@ -209,4 +205,19 @@ func getText() (string, error) {
 	rand.Seed(time.Now().Unix())
 	time.Sleep(time.Duration(rand.Int()) * time.Second)
 	return "ok", nil
+}
+
+func get(url string) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return
+	}
+	//defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("resp body: ", string(body))
+	time.Sleep(time.Microsecond * 200)
+}
+
+func modify(s []int) {
+	s = append(s, 1)
 }
