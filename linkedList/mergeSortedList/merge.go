@@ -44,3 +44,22 @@ func merge(l1, l2 *node) *node {
 	h = h.Next
 	return h
 }
+
+func mergeOnce(n1, n2 *node) *node {
+	if n1 == nil {
+		return n2
+	}
+	if n2 == nil {
+		return n1
+	}
+
+	var h *node
+	if n1.Val <= n2.Val {
+		h = n1
+		h.Next = mergeOnce(n1.Next, n2)
+	} else {
+		h = n2
+		h.Next = mergeOnce(n1, n2.Next)
+	}
+	return h
+}
