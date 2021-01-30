@@ -20,6 +20,10 @@ Example 2:
 Input: [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
+
+思路：
+遍历，每一个做开始，从后面找一个最大的，做结束；保存一个当前最大的，每一个开始的收益，跟当前的比，大则更新
+反过来，每一个做结束，前面找一个最小的，这个最小的不需要找，遍历的时候保持一个当前最小的
 */
 
 package main
