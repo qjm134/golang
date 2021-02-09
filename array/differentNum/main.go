@@ -106,7 +106,7 @@ func differentNum(a []int) int {
 }
 
 func main() {
-	a := []int{-2, -1, 0, 2, 4}
+	a := []int{-2, -2, -1, 0, 1, 2, 2, 4}
 	fmt.Println(differentNum(a))
 	fmt.Println(different(a))
 }
