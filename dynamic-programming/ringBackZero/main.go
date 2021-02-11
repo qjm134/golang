@@ -54,22 +54,41 @@ package main
 
 import "fmt"
 
+var sm []map[int]int
+
 func ways(num, n int) int {
+	sm = make([]map[int]int, 0, n)
+	for i := 0; i < num; i++ {
+		sm = append(sm, make(map[int]int))
+	}
 	return toPoint(num, n, 0)
 }
 
 func toPoint(num, n, i int) int {
+	var res int
+	if v, ok := sm[n][i]; ok {
+		return v
+	} else {
+		defer func() {
+			sm[n][i] = res
+		}()
+	}
+
 	if n < 0 || i < 0 {
-		return 0
+		res = 0
+		return res
 	}
 	if n == 0 {
 		if i == 0 {
-			return 1
+			res = 1
+			return res
 		} else {
-			return 0
+			res = 0
+			return res
 		}
 	}
-	return toPoint(num, n-1, (i-1+num)%num) + toPoint(num, n-1, (i+1)%num)
+	res = toPoint(num, n-1, (i-1+num)%num) + toPoint(num, n-1, (i+1)%num)
+	return res
 }
 
 //n 代表点的个数,k代表bushu
