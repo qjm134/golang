@@ -42,7 +42,7 @@ c、k任意固定一个值，如果m!=k*n，即非平行的2条线，则总会�
 如果 m == kn，则 d = kc/(k-1)
 */
 
-package cycle
+package solution
 
 type ListNode struct {
 	Val  int
