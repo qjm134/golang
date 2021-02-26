@@ -2,73 +2,80 @@ package main
 
 import "fmt"
 
-func main() {
-	list := new(linkedList)
-	list.Put(1)
-	list.Put(2)
-	list.Put(3)
-
-	list.Print()
-	list.ReverseLinkedList()
-	list.Print()
-}
-
-type linkedList struct {
-	head *node
-}
-
 type node struct {
-	data interface{}
+	data int
 	next *node
 }
 
-func (list *linkedList) ReverseLinkedList() {
-	head := list.head
+func reverseLinkList(head *node) *node {
+	if head == nil {
+		return nil
+	}
+
+	pre := head
+	cur := pre.next
+	for cur != nil {
+		next := cur.next
+		cur.next = pre
+		pre = cur
+		cur = next
+	}
+	head.next = nil
+
+	return pre
+}
+
+//循环链表逆转
+//in: 1->2->3->1
+//out: 1->3->2->1
+func reverseCycleList(head *node) *node {
+	if head == nil {
+		return head
+	}
+
+	pre := head
+	cur := pre.next
+	for cur != head {
+		next := cur.next
+		cur.next = pre
+		pre = cur
+		cur = next
+	}
+	head.next = pre
+	return head
+}
+
+func main() {
+	headl := &node{1, nil}
+	headl.next = &node{2, nil}
+	headl.next.next = &node{3, nil}
+	printList(headl)
+	printList(reverseLinkList(headl))
+
+	head := &node{1, nil}
+	head.next = &node{2, nil}
+	head.next.next = &node{3, head}
+	printCycleList(head)
+	printCycleList(reverseCycleList(head))
+}
+
+func printList(head *node) {
+	for head != nil {
+		fmt.Printf("%d -> ", head.data)
+		head = head.next
+	}
+	fmt.Println()
+}
+
+func printCycleList(head *node) {
 	if head == nil {
 		return
 	}
-
-	var p, q, r *node
-	if head.next != nil {
-		p = head
-		q = p.next
-		p.next = nil
-	} else {
-		return
-	}
-
-	for q.next != nil {
-		r = q.next
-		q.next = p
-		p = q
-		q = r
-	}
-	q.next = p
-
-	list.head = q
-}
-
-func (list *linkedList) Put(data interface{}) {
-	n := new(node)
-	n.data = data
-
-	if list.head == nil {
-		list.head = n
-		return
-	}
-
-	p := list.head
-	for p.next != nil {
+	fmt.Printf("%d -> ", head.data)
+	p := head.next
+	for p != head {
+		fmt.Printf("%d -> ", p.data)
 		p = p.next
 	}
-
-	p.next = n
-}
-
-func (list *linkedList) Print() {
-	p := list.head
-	for p != nil {
-		fmt.Println(p.data)
-		p = p.next
-	}
+	fmt.Println(p.data)
 }
