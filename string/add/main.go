@@ -23,6 +23,7 @@ func add(s1, s2 string) string {
 	for i, j := len(s1)-1, len(s2)-1; i >= 0 || j >= 0 || flag > 0; i, j = i-1, j-1 {
 		x, y := 0, 0
 		if i >= 0 {
+			//x, _ = strconv.Atoi(string(s1[i])) //也可以
 			x = int(s1[i] - '0')
 		}
 		if j >= 0 {
