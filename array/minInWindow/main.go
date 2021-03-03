@@ -51,3 +51,45 @@ Win = 3
 
 */
 package main
+
+import "fmt"
+
+func findMax(nums []int, k int) []int {
+	if len(nums) <= 0 {
+		return []int{0}
+	}
+
+	que := make([]int, 0)
+	res := make([]int, 0, len(nums)-k+1)
+
+	for i, j := 0-k+1, 0; j < len(nums); i, j = i+1, j+1 {
+		if i > 0 {
+			if nums[i-1] == que[0] {
+				que = que[1:len(que)]
+			}
+		}
+		for len(que) > 0 {
+			if nums[j] <= que[len(que)-1] {
+				que = append(que, nums[j])
+				break
+			} else {
+				que = que[:len(que)-1]
+			}
+		}
+		if len(que) == 0 {
+			que = append(que, nums[j])
+		}
+
+		if i >= 0 {
+			res = append(res, que[0])
+		}
+	}
+
+	return res
+}
+
+func main() {
+	nums := []int{1, 3, -1, -3, 5, 3, 6, 7}
+	k := 3
+	fmt.Println(findMax(nums, k))
+}
