@@ -60,7 +60,9 @@ s[i] 为 '(' 或 ')'
         //2.左括号，循环结束了，栈里还有 ()((), ()(())(, ()(()()(), ()(()(()
         //栈里剩几个左括号，就隔开n+1段
 */
-package longestBracket
+package main
+
+import "fmt"
 
 func longestValidParentheses(s string) int {
 	stack := make([]int, 0)
@@ -143,3 +145,45 @@ func longestValidParentheses(s string) int {
 }
 
 */
+
+/*
+()只有这种是有效的
+*/
+func longestContinuous(s string) int {
+	max := 0
+	tmp := 0
+	top := 0
+
+	for _, v := range s {
+		if v == '(' {
+			if top == 0 {
+				top++
+			} else {
+				if tmp > max {
+					max = tmp
+				}
+				tmp = 0
+			}
+		} else {
+			if top == 1 {
+				top--
+				tmp = tmp + 2
+			} else {
+				if tmp > max {
+					max = tmp
+				}
+				tmp = 0
+			}
+		}
+	}
+	if tmp > max {
+		max = tmp
+	}
+	return max
+}
+
+func main() {
+	//s := "(()))((()())("
+	s := "()())((()"
+	fmt.Println(longestContinuous(s))
+}
