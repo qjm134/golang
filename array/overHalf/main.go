@@ -33,25 +33,22 @@ package main
 
 import "fmt"
 
-func findOverHalf(a []int) int {
-	if len(a) == 0 {
-		return 0
-	}
-	sum := 1
-	start := a[0]
-	for i := 1; i < len(a); i++ {
-		if sum == 0 {
-			start = a[i]
-			sum++
-			continue
-		}
-		if a[i] != start {
-			sum--
+func findOverHalf(nums []int) int {
+	pre := 0
+	number := 0
+	for i := 0; i < len(nums); i++ {
+		if number == 0 {
+			pre = nums[i]
+			number++
 		} else {
-			sum++
+			if nums[i] != pre {
+				number--
+			} else {
+				number++
+			}
 		}
 	}
-	return start
+	return pre
 }
 
 func main() {

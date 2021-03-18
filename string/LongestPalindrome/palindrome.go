@@ -102,3 +102,50 @@ func LongestPalindrome(s string) string {
 	}
 	return maxStr
 }
+
+func longestParame(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+	if len(s) == 1 {
+		return 1
+	}
+
+	max := 0
+	for i := 1; i < len(s); i++ {
+		if s[i] == s[i-1] {
+			tmpBase := 2
+			left := i - 2
+			right := i + 1
+			tmp := getLen(s, left, right, tmpBase)
+			if tmp > max {
+				max = tmp
+			}
+		}
+
+		if i-2 >= 0 && s[i-2] == s[i] { //看完上面哪种，还得看下面这种，"aaa"
+			tmpBase := 3
+			left := i - 3
+			right := i + 1
+			tmp := getLen(s, left, right, tmpBase)
+			if tmp > max {
+				max = tmp
+			}
+		}
+	}
+
+	return max
+}
+
+func getLen(s string, left, right int, tmp int) int {
+	for left >= 0 && right < len(s) {
+		if s[left] == s[right] {
+			tmp = tmp + 2
+			left--
+			right++
+		} else {
+			return tmp
+		}
+	}
+	return tmp
+}
