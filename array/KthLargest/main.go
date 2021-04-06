@@ -27,7 +27,7 @@ func findK(a []int, k int, start, end int) int {
 	}
 	p := findPosition(a, start, end)
 	if p > k-1 {
-		return findK(a, k, 0, p-1)
+		return findK(a, k, start, p-1)
 	} else if p < k-1 {
 		return findK(a, k, p+1, end)
 	} else {

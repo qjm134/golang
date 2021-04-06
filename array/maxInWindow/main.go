@@ -54,6 +54,33 @@ package main
 
 import "fmt"
 
+func max(nums []int, k int) []int {
+	if k > len(nums) {
+		k = len(nums)
+	}
+
+	res := make([]int, 0, len(nums)-k+1)
+	tmp := make([]int, 0, len(nums))
+
+	left := 0
+	for right := 0; right < len(nums); right++ {
+		for len(tmp) > 0 && nums[right] > tmp[len(tmp)-1] {
+			tmp = tmp[:len(tmp)-1]
+		}
+		tmp = append(tmp, nums[right])
+
+		if right+1-k >= 0 {
+			res = append(res, tmp[0])
+
+			if nums[left] == tmp[0] {
+				tmp = tmp[1:]
+			}
+			left++
+		}
+	}
+	return res
+}
+
 func findMax(nums []int, k int) []int {
 	if len(nums) <= 0 {
 		return []int{0}

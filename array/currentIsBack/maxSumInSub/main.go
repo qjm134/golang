@@ -58,7 +58,7 @@
 当前元素 + 前一个元素作为结束的最大和  即为当前元素作为结束的最大和
 前一个最大和如果小于0了，那当前元素最大和，如上公式2部分相加得到，就不需要加前一个元素的最大和了
 */
-package maxSum
+package maxSumInSub
 
 func findMax(nums []int) int {
 	if len(nums) == 0 {
