@@ -75,3 +75,43 @@ func maxLength(nums []int, start int) int {
 
 	return maxTemp + 1
 }
+
+// 2, -1, 3, 1, 4
+// 2开始的递增序列: 2，3，4  不在这个序列中的: -1, 1
+// 再从-1开始找递增序列: -1, 3  或者 -1, 1, 4
+// 下面算法有问题，没有考虑上面-1开头有几种的情况
+func posiableStart(nums []int) int {
+	max := 0
+
+	sStart := make([]int, 0)
+	sStart = append(sStart, 0)
+	for len(sStart) > 0 {
+		start := sStart[0]
+		sStart = sStart[1:len(sStart)]
+		tmpLen := 1
+		pre := nums[start]
+		for i := start + 1; i < len(nums); i++ {
+			if nums[i] > pre {
+				tmpLen++
+				pre = nums[i]
+				if start > 0 {
+					for idx, numIdx := range sStart {
+						if numIdx == i {
+							sStart = append(sStart[:idx], sStart[idx+1:]...)
+							break
+						}
+					}
+				}
+			} else {
+				if start == 0 {
+					sStart = append(sStart, i)
+				}
+			}
+		}
+		if tmpLen > max {
+			max = tmpLen
+		}
+	}
+
+	return max
+}
