@@ -1,4 +1,6 @@
 /*
+剑指 Offer 57 - II. 和为s的连续正数序列
+
 自然数 1，2，3，4，5，6...
 给定一个正整数，找出所有和为该数的连续数字
 比如
@@ -14,14 +16,17 @@
 
 优化：
 滑动窗
-输入：10
-以1开头的子序列，结尾遍历到5的时候，和为1+2+3+4+5=14，大于目标值了，以1开头的子序列结束了
+输入：11
+以1开头的子序列，结尾遍历到5的时候，和为1+2+3+4+5=15，大于目标值了，以1开头的子序列结束了
 以2开头的子序列，2+3+4+5这个已经在前一个以1开头的子序列算过了
    以2开始，相当前面以1开始的窗左缩一个，前面的和减去前一个值即可，不需要从2开始重新算一遍2+3+4+5
 
 前一个结束的时候，要么等于目标值了，要么大于目标值
 如果是等于目标值，当前结束的和减去前一个，一定小于目标值，结束数字不需要回退，窗右扩
-如果是大于目标值，当前和减前一个，可能大于，也可能小于，也可能等于，相当于窗右缩，或者左缩，或者右扩
+如果是大于目标值，当前和减前一个，可能大于，也可能小于，也可能等于，相当于窗右缩，或者左缩，或者右扩，
+   实际上，只需要左缩即可，因为1+2+3+4+5>目标值，则不可能是2+3+4=目标值，即去2头取中间一段，
+   因为，中间段如果有等于目标值的，则加上前一个即1，则必大于目标值，那在4就结尾终止了，不会到5再结尾，
+   因此，不会右缩，只会不断左缩
 
 结束，窗右边的数字，大于目标值
 
@@ -37,38 +42,13 @@ func findContinuous(target int) [][]int {
 	end := 1
 	sum := start
 
-	for start <= end { // 从1开始依次往后，每一个数字做子序列的开头
+	for start <= end {
 		if sum < target {
-			for start <= end { //找子序列结束的数字
-				if sum < target {
-					end++
-					sum = sum + end
-				} else if sum > target {
-					sum = sum - start
-					start++
-					break
-				} else {
-					res = append(res, digitToSlice(start, end))
-					sum = sum - start
-					start++
-					break
-				}
-			}
+			end++
+			sum = sum + end
 		} else if sum > target {
-			for start <= end {
-				if sum > target {
-					sum = sum - end
-					end--
-				} else if sum < target {
-					sum = sum - start
-					start++
-					break
-				} else {
-					res = append(res, digitToSlice(start, end))
-					sum = sum - start
-					start++
-				}
-			}
+			sum = sum - start
+			start++
 		} else {
 			res = append(res, digitToSlice(start, end))
 			sum = sum - start
