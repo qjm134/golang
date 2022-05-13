@@ -31,8 +31,9 @@ type s struct {
 }
 
 func main() {
-	ss := s{}
-	fmt.Println(ss)
+
+	//ss := s{}
+	//fmt.Println(ss)
 
 	/*
 		go func() {
