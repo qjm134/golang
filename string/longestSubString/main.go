@@ -1,11 +1,6 @@
 /*
 3. Longest Substring Without Repeating Characters
-Medium
-
-8511
-
-517
-
+Medium 8511 517
 Add to List
 
 Share
