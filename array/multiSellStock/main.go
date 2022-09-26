@@ -1,4 +1,12 @@
 /*
+122. 买卖股票的最佳时机 II
+给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。
+
+在每一天，你可以决定是否购买和/或出售股票。你在任何时候 最多 只能持有 一股 股票。你也可以先购买，然后在 同一天 出售。
+
+返回 你能获得的 最大 利润 。
+
+
 股票可以买卖多次, 但是你必须要在买股票之前把之前买的股票卖掉。
 示例 1:
 
@@ -30,7 +38,15 @@
 实现：当前跟前一个比，大则卖，算一个利润，小则继续看下一个，不累加利润
 */
 
-package multiSellStock
+package main
+
+import "fmt"
+
+func main() {
+	//nums := []int{7, 1, 5, 3, 6, 4}
+	nums := []int{3, 3, 5, 0, 0, 3, 1, 4}
+	fmt.Println(extremum(nums))
+}
 
 func maxProfit(a []int) int {
 	if len(a) <= 1 {
@@ -45,4 +61,53 @@ func maxProfit(a []int) int {
 		}
 	}
 	return profit
+}
+
+const (
+	unknown = iota
+	up
+	down
+)
+
+// 极值法
+func extremum(nums []int) int {
+	if len(nums) <= 1 {
+		return 0
+	}
+
+	preFlag := unknown
+	onlyTwoUp := 0
+	minLocal := nums[0]
+	max := 0
+	for i := 1; i < len(nums); i++ {
+		if preFlag == unknown {
+			if nums[i] > nums[i-1] {
+				preFlag = up
+
+				if i == len(nums)-1 { // 才开始循环就结束了，进不到下面有计算利润的分支，因此需要在这计算利润
+					max = nums[i] - nums[i-1]
+					onlyTwoUp = 1
+				}
+			}
+			if nums[i] < nums[i-1] {
+				preFlag = down
+			}
+		} else {
+			if preFlag == up && nums[i] < nums[i-1] { // 找到极大值
+				max = max + (nums[i-1] - minLocal)
+				preFlag = down
+			}
+
+			if preFlag == down && nums[i] > nums[i-1] { // 找到极小值
+				minLocal = nums[i-1]
+				preFlag = up
+			}
+		}
+	}
+
+	if onlyTwoUp == 0 && preFlag == up { // 递增结束
+		max = max + (nums[len(nums)-1] - minLocal)
+	}
+
+	return max
 }
