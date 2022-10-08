@@ -34,9 +34,19 @@ s[i] 为 '(' 或 ')'
 
 
 思路：
+2种情况：
+(())  左括号 - 右括号 是最大长度
+()()  该次左括号配对得到的长度，跟前一次配对连续，需要加上前一次的
+      这种情况就是配对的左括号（，前面是个右括号）
+      我们可以记录每个右括号配对的长度，那当前这个加上前一个右括号的，就是连续的长度
+               6
+        2      4
+      （ ）（（））
+
+
 有效的括号的判断：
 遇到左括号压栈，遇到右括号出栈，栈里没有，一次配对的括号结束
-连续有效的，可能是由多个配对括号连续排着的
+连续有效的，可能是由多个配对括号连续排着的()(())
 
 2种情况：
 1. 遇到左括号
@@ -62,7 +72,58 @@ s[i] 为 '(' 或 ')'
 */
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+func main() {
+	//s := "(()))((()())("
+	s := "()())((()"
+	//fmt.Println(longestContinuous(s))
+	fmt.Println(longest(s))
+
+	//t := 's'
+	//fmt.Println(reflect.TypeOf(t))
+	//if s[0] == '(' {
+	//	fmt.Println("yes")
+	//}
+}
+
+func longest(s string) int {
+	max := 0
+	maxList := make([]int, len(s))
+
+	stack := make([]int, len(s))
+	top := -1
+
+	for i := 0; i < len(s); i++ {
+		if s[i] == '(' {
+			top++
+			stack[top] = i
+		}
+
+		if s[i] == ')' {
+			if top >= 0 {
+				p := stack[top] // 配对的'（'的位置
+				l := i - p + 1  // 配对长度
+
+				// 与前面的连续，则当前括号的最大长度需加上前面的
+				if p > 0 && s[p-1] == ')' {
+					l = l + maxList[p-1]
+				}
+				maxList[i] = l
+
+				if l > max {
+					max = l
+				}
+
+				top--
+			}
+		}
+	}
+
+	return max
+}
 
 func longestValidParentheses(s string) int {
 	stack := make([]int, 0)
@@ -180,10 +241,4 @@ func longestContinuous(s string) int {
 		max = tmp
 	}
 	return max
-}
-
-func main() {
-	//s := "(()))((()())("
-	s := "()())((()"
-	fmt.Println(longestContinuous(s))
 }
