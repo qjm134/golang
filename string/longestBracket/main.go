@@ -91,8 +91,10 @@ func main() {
 
 func longest(s string) int {
 	max := 0
+	// 保存每个'）'的连续最大值
 	maxList := make([]int, len(s))
 
+	// 保存'（'的位置
 	stack := make([]int, len(s))
 	top := -1
 

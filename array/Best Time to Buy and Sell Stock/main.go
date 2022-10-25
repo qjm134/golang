@@ -48,15 +48,17 @@ func BestTimeOptimize(prices []int) (buyDay, sellDay, profit int) {
 		return 0, 0, 0
 	}
 	minPrice := prices[0]
+	minDay := 0
 	for i, price := range prices {
 		tmpProfit := price - minPrice
 		if tmpProfit > profit {
 			profit = tmpProfit
 			sellDay = i
+			buyDay = minDay
 		}
 		if price < minPrice {
 			minPrice = price
-			buyDay = i
+			minDay = i
 		}
 	}
 	return buyDay, sellDay, profit

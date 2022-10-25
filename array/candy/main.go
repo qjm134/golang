@@ -1,9 +1,10 @@
 /*
+135.分糖果
 有N个小朋友站在一排，每个小朋友都有一个评分
 你现在要按以下的规则给孩子们分糖果：
 1.每个小朋友至少要分得一颗糖果
 2.分数高的小朋友要他比旁边得分低的小朋友分得的糖果多
-3.分数一样的，糖果数也要一样
+//3.分数一样的，糖果数也要一样
 你最少要分发多少颗糖果？
 比如：
 [1,5,3,1]
@@ -19,6 +20,7 @@
      如果前一个数量就是1，那减了就是0了，不能满足至少1个
      那当前数量为1，往前遍历，前一个加1，再前一个如果还大，那需要加1；如果小就不需要了，退出不继续往前；相等也要加1
      如果前一个数量大于1，则当前数量等于1
+//3.最后再找相等，取最大的
 
 
 二、
@@ -32,6 +34,8 @@
 前到后：[1,2,1,1,1,1,1]
 后到前：[1,5,4,3,3,2,1]
 最后的：[1,5,4,3,3,2,1]
+//3.最后再找相等，取最大的
+//[4,5,1,5,3,2]
 */
 
 package main
@@ -39,11 +43,8 @@ package main
 import "fmt"
 
 func minOptimize(a []int) int {
-	if len(a) == 0 {
+	if len(a) <= 0 {
 		return 0
-	}
-	if len(a) == 1 {
-		return 1
 	}
 
 	left := make([]int, len(a))
@@ -51,8 +52,6 @@ func minOptimize(a []int) int {
 	for i := 1; i < len(a); i++ {
 		if a[i] > a[i-1] {
 			left[i] = left[i-1] + 1
-		} else if a[i] == a[i-1] {
-			left[i] = left[i-1]
 		} else {
 			left[i] = 1
 		}
@@ -63,7 +62,7 @@ func minOptimize(a []int) int {
 	for j := len(a) - 2; j >= 0; j-- {
 		if a[j] > a[j+1] {
 			right++
-		} else if a[j] < a[j+1] {
+		} else {
 			right = 1
 		}
 		right = maxcan(left[j], right)
