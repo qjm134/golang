@@ -28,7 +28,70 @@ map存集合，集合中的元素是点
 遍历的时候，每次都从头开始遍历二维数组中的每个点，遍历过的标记，遇到直接跳过
 */
 
-package pathValid
+package main
+
+import "fmt"
+
+func main() {
+	edges := [][]int{{4, 3}, {1, 4}, {4, 8}, {1, 7}, {6, 4}, {4, 2}, {7, 4}, {4, 0}, {0, 9}, {5, 4}}
+	source := 5
+	destination := 9
+	fmt.Println(isConnect(len(edges), edges, source, destination))
+}
+
+func isConnect(n int, edges [][]int, source int, destination int) bool {
+	if len(edges) == 0 && source == 0 && destination == 0 {
+		return true
+	}
+
+	for i := 0; i < len(edges); i++ {
+		for j := 0; j < 2; j++ {
+			if edges[i][j] == source {
+				found := make([]bool, len(edges))
+				found[i] = true
+				res := false
+				if j == 0 {
+					res = find(edges, edges[i][1], destination, found)
+				} else {
+					res = find(edges, edges[i][0], destination, found)
+				}
+				if res {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func find(edges [][]int, next int, destination int, found []bool) bool {
+	if next == destination {
+		return true
+	}
+
+	for i := 0; i < len(edges); i++ {
+		if found[i] == true {
+			continue
+		}
+
+		for j := 0; j < 2; j++ {
+			if edges[i][j] == next {
+				found[i] = true
+				res := false
+				if j == 0 {
+					res = find(edges, edges[i][1], destination, found)
+				} else {
+					res = find(edges, edges[i][0], destination, found)
+				}
+				if res {
+					return true
+				}
+			}
+		}
+	}
+
+	return false
+}
 
 func validPath(n int, edges [][]int, source int, destination int) bool {
 	if len(edges) <= 0 {
