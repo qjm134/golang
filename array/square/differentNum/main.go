@@ -8,6 +8,10 @@ nums = {-1,0,1,2,3}
 你应该返回4，因为nums数组所有元素的平方值一共4种取值：1,0,4,9
 
 思路：
+有序数组都变正，则是一个类似 v 的折线
+从有序数组的2头向下，求所有的平方，并按从大到小。保存前一个平方值，如果当前值跟前一个不一样，则+1
+
+
 1.存在相同的情况：
 a.相邻数字相同
 b.整数跟负数
@@ -26,6 +30,51 @@ import (
 	"fmt"
 	"math"
 )
+
+func main() {
+	//a := []int{-2, -2, -1, 0, 1, 2, 4}
+	//a := []int{-1, 1, 1, 1}
+	a := []int{-1, 0, 1, 2, 3}
+	fmt.Println(diff(a))
+	fmt.Println(differentNum(a))
+	fmt.Println(different(a))
+}
+
+func diff(nums []int) int {
+	if len(nums) <= 0 {
+		return 0
+	}
+
+	total := 0
+	leftIdx := 0
+	rightIdx := len(nums) - 1
+	preSquare := nums[0]*nums[0] + 1
+	if nums[len(nums)-1]*nums[len(nums)-1] > nums[0]*nums[0] {
+		preSquare = nums[len(nums)-1]*nums[len(nums)-1] + 1
+	}
+
+	for leftIdx <= rightIdx {
+		leftSuqare := nums[leftIdx] * nums[leftIdx]
+		rightSquare := nums[rightIdx] * nums[rightIdx]
+		if leftSuqare < rightSquare {
+			if rightSquare != preSquare {
+				total++
+				preSquare = rightSquare
+			}
+			rightIdx--
+		}
+
+		if leftSuqare >= rightSquare {
+			if leftSuqare != preSquare {
+				total++
+				preSquare = leftSuqare
+			}
+			leftIdx++
+		}
+	}
+
+	return total
+}
 
 func different(a []int) int {
 	if len(a) == 0 {
@@ -103,10 +152,4 @@ func differentNum(a []int) int {
 		}
 	}
 	return num
-}
-
-func main() {
-	a := []int{-2, -2, -1, 0, 1, 2, 2, 4}
-	fmt.Println(differentNum(a))
-	fmt.Println(different(a))
 }

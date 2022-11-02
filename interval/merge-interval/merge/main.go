@@ -26,11 +26,62 @@ NOTE: input types have been changed on April 15, 2019. Please reset to default c
   c.中间的话，取右节点最大的为合并区间的右节点；右边的话，不能合并，直接添加到合并区间集合里
 
 */
+package main
 
-package merge
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	//ints := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
+	ints := [][]int{{1, 9}, {2, 5}, {19, 20}, {10, 11}, {12, 20}, {0, 3}, {0, 1}, {0, 2}}
+	sort.Sort(intervals(ints))
+	fmt.Println(merge(ints))
+}
+
+func merge(sortedIntervals [][]int) [][]int {
+	if len(sortedIntervals) <= 1 {
+		return sortedIntervals
+	}
+
+	mer := make([][]int, 1)
+	mer[0] = sortedIntervals[0]
+	top := 0
+	for i := 1; i < len(sortedIntervals); i++ {
+		if sortedIntervals[i][0] <= mer[top][1] {
+			if sortedIntervals[i][1] > mer[top][1] {
+				mer[top][1] = sortedIntervals[i][1]
+			}
+		} else {
+			mer = append(mer, sortedIntervals[i])
+			top++
+		}
+	}
+
+	return mer
+}
+
+type intervals [][]int
+
+func (it intervals) Len() int {
+	return len(it)
+}
+
+func (it intervals) Less(i, j int) bool {
+	if it[i][0] <= it[j][0] {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (it intervals) Swap(i, j int) {
+	it[i], it[j] = it[j], it[i]
+}
 
 func Merge(interval [][]int) [][]int {
-	sorted := sort(interval, 0, len(interval)-1)
+	sorted := sortInterval(interval, 0, len(interval)-1)
 	var res [][]int
 	for _, v := range sorted {
 		l := len(res)
@@ -51,13 +102,13 @@ func Merge(interval [][]int) [][]int {
 	return res
 }
 
-func sort(interval [][]int, left, right int) [][]int {
+func sortInterval(interval [][]int, left, right int) [][]int {
 	if right <= left {
 		return interval
 	}
 	mid := sortOnce(interval, left, right)
-	sort(interval, left, mid-1)
-	sort(interval, mid+1, right)
+	sortInterval(interval, left, mid-1)
+	sortInterval(interval, mid+1, right)
 	return interval
 }
 

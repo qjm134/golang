@@ -12,7 +12,7 @@
 连续子序列，从小到大，以每个数字作为子序列的开头，连续向后找，满足和为目标值的序列，的结束数字
 和小于目标值，一直向后
 和等于目标值，找到，停止，因为再向后数字越来越大，和只会大于
-和大于目标值，停止，该数字开头的子序列没有符合的
+和大于目标值，停止，该数字开头的子序列没有符合的，从下一个开始
 
 优化：
 滑动窗
@@ -42,7 +42,7 @@ func findContinuous(target int) [][]int {
 	end := 1
 	sum := start
 
-	for start <= end {
+	for start <= target/2 {
 		if sum < target {
 			end++
 			sum = sum + end
@@ -60,8 +60,11 @@ func findContinuous(target int) [][]int {
 }
 
 func digitToSlice(start, end int) []int {
-	res := make([]int, 0, end-start+1)
+	if start == end {
+		return []int{start}
+	}
 
+	res := make([]int, 0, end-start+1)
 	for i := start; i <= end; i++ {
 		res = append(res, i)
 	}
