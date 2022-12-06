@@ -74,3 +74,37 @@ func nonRecursiveDepth(root *node) int {
 	}
 	return depth
 }
+
+
+type treeNode struct {
+	data int
+	left  *treeNode
+	right *treeNode
+}
+
+func breadthSearch(root *treeNode) {
+	if root == nil {
+		return
+	}
+
+	que := []*treeNode{root}
+	curNum := 1
+	depth := 0
+	for curNum > 0 {
+		depth++
+		nextNum := 0
+		for i:=0; i<curNum; i++ {
+			n := que[0]
+			que = que[1:]
+			if n.left != nil {
+				nextNum++
+				que =append(que, n.left)
+			}
+			if n.right != nil {
+				nextNum++
+				que =append(que, n.right)
+			}
+		}
+		curNum = nextNum
+	}
+}

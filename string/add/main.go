@@ -17,7 +17,34 @@ import (
 	"strconv"
 )
 
-func add(s1, s2 string) string {
+func add(x, y string) string {
+	xi := len(x) - 1
+	yj := len(y) - 1
+	flag := 0
+	res := ""
+	for xi >= 0 || yj >= 0 || flag > 0 {
+		xv := 0
+		if xi >= 0 {
+			xv = int(x[xi] - '0')
+			xi--
+		}
+
+		yv := 0
+		if yj >= 0 {
+			yv = int(y[yj] - '0')
+			yj--
+		}
+
+		tmp := xv + yv + flag
+		cur := tmp % 10
+		res = string(byte(cur)+'0') + res
+		flag = tmp / 10
+	}
+
+	return res
+}
+
+func add1(s1, s2 string) string {
 	s := ""
 	flag := 0
 	for i, j := len(s1)-1, len(s2)-1; i >= 0 || j >= 0 || flag > 0; i, j = i-1, j-1 {

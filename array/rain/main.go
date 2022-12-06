@@ -1,4 +1,5 @@
 /*
+42
 给出一个数组代表围柱的高度，求能围柱的最大的水量，例如数组{ 5，2，3，2，4 }，最大水量为5
 
 思路：
@@ -52,4 +53,43 @@ func water(nums []int) int {
 func main() {
 	nums := []int{5, 2, 3, 2, 4}
 	fmt.Println(water(nums))
+}
+
+func maxRain(nums []int) int {
+	if len(nums) <= 0 {
+		return 0
+	}
+
+	rain := 0
+	left := 0
+	right := len(nums) - 1
+	leftMax := nums[left]
+	rightMax := nums[right]
+	for left <= right {
+		if leftMax <= rightMax {
+			tmp := leftMax - nums[left]
+			if tmp > 0 {
+				rain = rain + tmp
+			}
+
+			if nums[left] > leftMax {
+				leftMax = nums[left]
+			}
+
+			left++
+		} else {
+			tmp := rightMax - nums[right]
+			if tmp > 0 {
+				rain = rain + tmp
+			}
+
+			if nums[right] > rightMax {
+				rightMax = nums[right]
+			}
+
+			right--
+		}
+	}
+
+	return rain
 }

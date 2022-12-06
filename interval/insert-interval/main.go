@@ -22,6 +22,12 @@ Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
 */
 
 /*
+思路一
+二分查找，找新区间的左边界和右边界，在原区间所有左边界中的位置，涉及的2个数组
+4在3和6间，有2种情况，在3-5间，或者在5-6间
+8在8和12
+
+思路二
 1. 从头往后，找到比newInterval.start大的数。
 	此时start所在的位置，有2种：区间里、区间外。
 	此时需要对涉及区间的intervals.start和newInterval.start进行二选一，作为output.start。
